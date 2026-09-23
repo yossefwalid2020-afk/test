@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قائمة AR - عرض الطبق بتقنية الواقع المعزز</title>
+
+<!-- مكتبة model-viewer من جوجل (مجانية) لعرض الموديل 3D وتفعيل AR -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+
+<!-- مكتبة توليد الباركود محليًا (مجانية، بدون أي خدمة خارجية) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  p.note { color: #aaa; font-size: 14px; margin-top: 0; }
+
+  model-viewer {
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    background-color: #262626;
+    border-radius: 12px;
+    margin: 20px auto;
+  }
+
+  #ar-button {
+    background: #d4a017;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .qr-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+  }
+  #qrcode {
+    display: inline-block;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  input {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🍽️ طبق كشري بالصلصة الحارة</h1>
+<p class="note">دوس على زر "شاهد على الترابيزة" وحرك الموبايل - الطبق هيظهر مجسّم قدامك</p>
+
+<!--
+  ⚠️ استبدل الرابط ده برابط الموديل اللي هتصوره وترفعه.
+  ده موديل تجريبي مجاني من مكتبة جوجل للتجربة فقط.
+-->
+<model-viewer
+  src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+  ios-src=""
+  alt="نموذج الطبق ثلاثي الأبعاد"
+  ar
+  ar-modes="webxr scene-viewer quick-look"
+  camera-controls
+  auto-rotate
+  shadow-intensity="1">
+  <button slot="ar-button" id="ar-button">📱 شاهد على الترابيزة</button>
+</model-viewer>
+
+<div class="qr-section">
+  <p>🔗 هذا هو الباركود اللي بتحطه في المنيو:</p>
+  <p class="note">اكتب رابط الصفحة دي بعد ما ترفعها (مثلاً على GitHub Pages) هنا تحت:</p>
+  <input type="text" id="urlInput" placeholder="https://yourname.github.io/ar-menu/koshari.html">
+  <br>
+  <div id="qrcode"></div>
+</div>
+
+<script>
+  const qr = new QRCode(document.getElementById("qrcode"), {
+    text: "https://example.com",
+    width: 180,
+    height: 180
+  });
+
+  document.getElementById("urlInput").addEventListener("input", function () {
+    const val = this.value || "https://example.com";
+    document.getElementById("qrcode").innerHTML = "";
+    new QRCode(document.getElementById("qrcode"), {
+      text: val,
+      width: 180,
+      height: 180
+    });
+  });
+</script>
+
+</body>
+</html>
